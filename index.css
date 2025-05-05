@@ -1,0 +1,88 @@
+/* base styles */
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background-color: #fcd987;
+  color: #333;
+}
+
+/* headers styling */
+h1,
+h2 {
+  text-align: center;
+  background-color: #fff8f0;
+  margin: 1rem auto;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  max-width: 90%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #003f6c;
+}
+
+h2 {
+  font-size: 1.25rem;
+  color: #00528d;
+}
+
+/* Container for the whole app */
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Party list styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #fff;
+  margin: 0.5rem auto;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  max-width: 90%;
+}
+
+li:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fffaf4;
+}
+
+li a {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: bold;
+  display: block;
+}
+
+/* Party details */
+section.party {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+section.party h3 {
+  margin-top: 0;
+}
+
+section.party p {
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
