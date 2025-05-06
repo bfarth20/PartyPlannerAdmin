@@ -86,3 +86,47 @@ section.party p {
   line-height: 1.5;
   margin-bottom: 0.5rem;
 }
+
+/* input form styling */
+form {
+  margin: 2rem 0;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 500px;
+}
+
+form h2 {
+  margin-bottom: 1rem;
+}
+
+form label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: bold;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+form button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}

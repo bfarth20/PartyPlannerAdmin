@@ -62,6 +62,65 @@ async function getRSVPs() {
   }
 }
 
+//adding the new party form function to add more parties
+function NewPartyForm() {
+  const form = document.createElement("form");
+  form.classList.add("new-party-form");
+
+  const fields = ["name", "description", "date", "location"];
+  const inputs = {};
+
+  fields.forEach((field) => {
+    const label = document.createElement("label");
+    label.textContent = `${field[0].toUpperCase() + field.slice(1)}: `;
+
+    const input = document.createElement("input");
+    input.name = field;
+    input.required = true;
+
+    if (field === "date") input.type = "date";
+    else input.type = "text";
+
+    inputs[field] = input;
+
+    label.appendChild(input);
+    form.appendChild(label);
+  });
+
+  const submitBtn = document.createElement("button");
+  submitBtn.type = "submit";
+  submitBtn.textContent = "Add Party";
+  form.appendChild(submitBtn);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const newParty = {
+      name: inputs.name.value,
+      description: inputs.description.value,
+      date: new Date(inputs.date.value).toISOString(),
+      location: inputs.location.value,
+    };
+
+    try {
+      const response = await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newParty),
+      });
+
+      if (!response.ok) throw new Error("Failed to create party");
+
+      await getParties(); // re-fetch and re-render
+      form.reset();
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  return form;
+}
+
 //Components
 
 //party name that shows the name, ID, date, description, and location of selected party
@@ -120,6 +179,25 @@ function PartyDetails() {
   const location = document.createElement("p");
   location.textContent = `Location: ${selectedParty.location}`;
 
+  //here is the added delete button
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete Party";
+  deleteButton.style.marginTop = "1em";
+
+  deleteButton.addEventListener("click", async () => {
+    if (confirm("Are you sure you want to delete this party?")) {
+      try {
+        await fetch(`${API}/${selectedParty.id}`, {
+          method: "DELETE",
+        });
+        selectedParty = null; // clear selected party from state
+        await getParties(); // refresh the party list
+      } catch (err) {
+        console.error("Failed to delete party", err);
+      }
+    }
+  });
+
   const rsvpList = document.createElement("ul");
   rsvpList.textContent = "Guests:";
 
@@ -143,6 +221,7 @@ function PartyDetails() {
   section.appendChild(description);
   section.appendChild(location);
   section.appendChild(rsvpList);
+  section.appendChild(deleteButton);
 
   return section;
 }
@@ -152,25 +231,26 @@ function render() {
   const app = document.getElementById("app");
   app.innerHTML = "";
 
-  // Main Title
   const title = document.createElement("h1");
   title.textContent = "Party Planner";
   app.appendChild(title);
 
-  // Upcoming Parties Section
+  // Add form to create a new party
+  const form = NewPartyForm();
+  app.appendChild(form);
+
   const listHeader = document.createElement("h2");
   listHeader.textContent = "Upcoming Parties";
   app.appendChild(listHeader);
 
-  const ul = PartyList(); // Renders list of party <li> items
+  const ul = PartyList();
   app.appendChild(ul);
 
-  // Party Details Section
   const detailHeader = document.createElement("h2");
   detailHeader.textContent = "Party Details";
   app.appendChild(detailHeader);
 
-  const details = PartyDetails(); // Shows selected party info
+  const details = PartyDetails();
   app.appendChild(details);
 }
 async function init() {
